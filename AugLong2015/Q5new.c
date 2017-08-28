@@ -1,0 +1,73 @@
+#include<stdio.h>
+int main()
+{
+    unsigned long long n,m,i,j,k,l,a[10000],b[10000][4],storeg,pos,countl,countr,calc,countg;
+    scanf("%llu%llu",&n,&m);
+    for(i=0;i<n;i++)
+    {
+        scanf("%llu",&a[i]);
+    }
+    k=1;
+    countr=0;
+    b[0][0]=a[0];   //value
+    b[0][1]=0;  //lhs
+    while(a[i]>a[k])
+    {
+        countr++;
+        k++;
+        if(k==n)
+            break;
+    }
+    b[0][2]=countr;
+    countg=countr;
+    pos=0;
+    for(i=1;i<n-1;i++)
+    {
+        if(i<=(pos+countg))
+        {
+            countl=0, countr=0;
+            k=i+1;
+            while(a[i]>a[k])
+            {
+                countr++;
+                k++;
+                if(k==n)
+                    break;
+            }
+            b[i][0]=a[i];
+            k=i-1;
+            while(a[i]>a[k])
+            {
+                countl++;
+                k--;
+                if(k==-1)
+                    break;
+            }
+            b[i][1]=countl;
+            b[i][2]=countr;
+            calc=(b[i][1]*b[i][2]);
+            b[i][3]=calc;
+        }
+        else
+        {
+            pos=i;
+            countl=countg+1;
+            countg=0,countr=0;
+            k=i+1;
+            while(a[i]>a[k])
+            {
+                countr++;
+                k++;
+                if(k==n)
+                    break;
+            }
+            countg=countr;
+            b[i][0]=a[i];
+            b[i][1]=countl;
+            b[i][2]=countr;
+            b[i][3]=(b[i][1]*b[i][2]);
+        }
+    }
+    for(i=0;i<n;i++)
+        printf("%llu ",b[i][3]);
+}
